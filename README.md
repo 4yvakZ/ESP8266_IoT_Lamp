@@ -6,13 +6,15 @@
 
 В найстроках в дополнительных ссылках для менеджера плат добавляем две строки
 
-```
-https://dl.espressif.com/dl/package_esp32_index.json, http://arduino.esp8266.com/stable/package_esp8266com_index.json
+```json
+https://dl.espressif.com/dl/package_esp32_index.json,
+http://arduino.esp8266.com/stable/package_esp8266com_index.json
 ```
 
 Далее в менеджере плат ищем esp8266 и устанавливаем
 После установки в списке плат должна появиться **ESP8266 Boards (3.0.0)>Generic ESP8266  Module**. После чего можно присупать к программированию самого контроллера
 
-## Пишем сервер на ESP8266
+## 1. Пишем сервер на ESP8266
 
-Для начала добавляем .zip библиотек из репозитория
+Для начала подключаем .zip библиотек из репозитория **Скетч>Подключить библиотеку>Добавить .ZIP библиотеку**
+
