@@ -56,7 +56,7 @@
 		<span>Радуга</span>
 		<label class="switch">
 			<input type="checkbox" id="Rainbow" onchange="sendToggle(this)" %RAINBOW%>
-			<span class="slider switch"></span>
+			<!-- <span class="slider switch"></span> -->
 		</label>
 	</p>
 
@@ -64,7 +64,7 @@
 		<span>Автояркость</span>
 		<label class="switch">
 			<input type="checkbox" id="Autobrightness" onchange="sendToggle(this)" %AUTOBRIGHTNESS%>
-			<span class="slider switch"></span>
+			<!-- <span class="slider switch"></span> -->
 		</label>
 	</p>
 	<script>
@@ -126,72 +126,6 @@
 				xhttp.open("GET", "/brightness", true);
 				xhttp.send();
 			}, 1000 ) ;
-
-		setInterval(function ( ) {
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						document.getElementById("RangeR").value = this.responseText;
-						document.getElementById("ValueR").innerHTML = this.responseText;
-					}
-				};
-				xhttp.open("GET", "/RangeR", true);
-				xhttp.send();
-			}, 1000 ) ;
-
-		setInterval(function ( ) {
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						document.getElementById("RangeG").value = this.responseText;
-						document.getElementById("ValueG").innerHTML = this.responseText;
-					}
-				};
-				xhttp.open("GET", "/RangeG", true);
-				xhttp.send();
-			}, 1000 ) ;
-
-		setInterval(function ( ) {
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						document.getElementById("RangeB").value = this.responseText;
-						document.getElementById("ValueB").innerHTML = this.responseText;
-					}
-				};
-				xhttp.open("GET", "/RangeB", true);
-				xhttp.send();
-			}, 1000 ) ;
-
-			setInterval(function ( ) {
-					var xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							if(this.responseText == "checked"){
-								document.getElementById("Rainbow").checked = true;
-							} else {
-								document.getElementById("Rainbow").checked = false;
-							}
-						}
-					};
-					xhttp.open("GET", "/Rainbow", true);
-					xhttp.send();
-				}, 1000 ) ;
-
-			setInterval(function ( ) {
-					var xhttp = new XMLHttpRequest();
-					xhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							if(this.responseText == "checked"){
-								document.getElementById("Autobrightness").checked = true;
-							} else {
-								document.getElementById("Autobrightness").checked = false;
-							}
-						}
-					};
-					xhttp.open("GET", "/Autobrightness", true);
-					xhttp.send();
-				}, 1000 ) ;
 	</script>
 </body>
 </html>
