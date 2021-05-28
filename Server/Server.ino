@@ -2,6 +2,13 @@
 #include "ESP8266WiFi.h"
 #include "ESPAsyncWebServer.h"
 #include "page.h"
+#include <Adafruit_NeoPixel.h>
+
+#define LED_PIN 12
+#define LED_COUNT 60
+#define BRIGHTNESS 50
+
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 float temperature = 0;
 int brightness = 0;
@@ -10,10 +17,11 @@ int G = 0;
 int B = 0;
 bool autobrightness = LOW;
 bool rainbow = LOW;
+bool updateLED = LOW;
 
 // Replace with your network credentials
-const char* ssid = "HOME";
-const char* password = "new_kandarat6";
+const char* ssid = "ADL_Kinetic";
+const char* password = "ADLaboratory";
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -47,6 +55,11 @@ String processor(const String& var){
 }
 
 void setup(){
+
+  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+  strip.show();            // Turn OFF all pixels ASAP
+  strip.setBrightness(BRIGHTNESS);
+
   // Serial port for debugging purposes
   Serial.begin(115200);
 
@@ -71,29 +84,6 @@ void setup(){
   server.on("/brightness", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", String(brightness).c_str());
   });
-  server.on("/RangeR", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(R).c_str());
-  });
-  server.on("/RangeG", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(G).c_str());
-  });
-  server.on("/RangeB", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(B).c_str());
-  });
-  server.on("/Rainbow", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(rainbow){
-      request->send_P(200, "text/plain", String("checked").c_str());
-    } else {
-      request->send_P(200, "text/plain", String("unchecked").c_str());
-    }
-  });
-  server.on("/Autobrightness", HTTP_GET, [](AsyncWebServerRequest *request){
-    if(autobrightness){
-      request->send_P(200, "text/plain", String("checked").c_str());
-    } else {
-      request->send_P(200, "text/plain", String("unchecked").c_str());
-    }
-  });
 
 
   server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
@@ -111,6 +101,7 @@ void setup(){
         B = value.toInt();
       }
       Serial.printf("%d %d %d\n", R, G, B);
+      updateLED = HIGH;
     } else if (request->hasParam("toggle") & request->hasParam("state")) {
       id = request->getParam("toggle")->value();
       value = request->getParam("state")->value();
@@ -129,6 +120,46 @@ void setup(){
 }
 
 void loop() {
+  if(rainbow){
+    rainbowLed();
+  } else {
+    colorWipe(strip.Color(R, G, B));
+  }
+  if(autobrightness){
+    strip.setBrightness(brightness);
+  } else {
+    strip.setBrightness(BRIGHTNESS);
+  }
   temperature = millis()%100;
   brightness = millis()/10%100;
+}
+
+void colorWipe(uint32_t color) {
+  for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+    strip.setPixelColor(i, color);         //  Set pixel's color (in RAM)
+    strip.show();                        //  Pause for a moment
+  }
+}
+
+void rainbowLed() {
+  // Hue of first pixel runs 5 complete loops through the color wheel.
+  // Color wheel has a range of 65536 but it's OK if we roll over, so
+  // just count from 0 to 5*65536. Adding 256 to firstPixelHue each time
+  // means we'll make 5*65536/256 = 1280 passes through this outer loop:
+  for(long firstPixelHue = 0; firstPixelHue < 5*65536; firstPixelHue += 256) {
+    for(int i=0; i<strip.numPixels(); i++) { // For each pixel in strip...
+      // Offset pixel hue by an amount to make one full revolution of the
+      // color wheel (range of 65536) along the length of the strip
+      // (strip.numPixels() steps):
+      int pixelHue = firstPixelHue + (i * 65536L / strip.numPixels());
+      // strip.ColorHSV() can take 1 or 3 arguments: a hue (0 to 65535) or
+      // optionally add saturation and value (brightness) (each 0 to 255).
+      // Here we're using just the single-argument hue variant. The result
+      // is passed through strip.gamma32() to provide 'truer' colors
+      // before assigning to each pixel:
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+    }
+    strip.show();
+    yield();
+  }
 }
