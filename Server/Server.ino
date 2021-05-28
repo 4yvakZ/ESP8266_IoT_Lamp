@@ -85,7 +85,6 @@ void setup(){
     request->send_P(200, "text/plain", String(brightness).c_str());
   });
 
-
   server.on("/update", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String id;
     String value;
@@ -122,7 +121,8 @@ void setup(){
 void loop() {
   if(rainbow){
     rainbowLed();
-  } else {
+    updateLED = HIGH;
+  } else if (updateLED) {
     colorWipe(strip.Color(R, G, B));
   }
   if(autobrightness){
@@ -130,6 +130,7 @@ void loop() {
   } else {
     strip.setBrightness(BRIGHTNESS);
   }
+  yield();
   temperature = millis()%100;
   brightness = millis()/10%100;
 }

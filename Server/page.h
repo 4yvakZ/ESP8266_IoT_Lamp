@@ -57,7 +57,7 @@ const char index_html[] PROGMEM = R"rawliteral(
   		<span>Радуга</span>
   		<label class="switch">
   			<input type="checkbox" id="Rainbow" onchange="sendToggle(this)" %RAINBOW%>
-  			<span class="slider switch"></span>
+  			<!-- <span class="slider switch"></span> -->
   		</label>
   	</p>
 
@@ -65,7 +65,7 @@ const char index_html[] PROGMEM = R"rawliteral(
   		<span>Автояркость</span>
   		<label class="switch">
   			<input type="checkbox" id="Autobrightness" onchange="sendToggle(this)" %AUTOBRIGHTNESS%>
-  			<span class="slider switch"></span>
+  			<!-- <span class="slider switch"></span> -->
   		</label>
   	</p>
   	<script>
@@ -127,7 +127,9 @@ const char index_html[] PROGMEM = R"rawliteral(
   				xhttp.open("GET", "/brightness", true);
   				xhttp.send();
   			}, 1000 ) ;
+
   	</script>
   </body>
   </html>
+
 )rawliteral";

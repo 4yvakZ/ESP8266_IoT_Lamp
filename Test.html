@@ -191,26 +191,44 @@
 		outputs[2].innerHTML = this.value;
 	}
 
-	setInterval(function ( ) {
-	  var xhttp = new XMLHttpRequest();
-	  xhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		      document.getElementById("temperature").innerHTML = this.responseText;
-		    }
-		  };
-		  xhttp.open("GET", "/temperature", true);
-		  xhttp.send();
-		}, 10000 ) ;
+	function sendSlider(element){
+		var sliderValue = element.value;
+		console.log(sliderValue);
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "/update?slider="+element.id+"&value="+sliderValue, true);
+		xhr.send();
+	}
+
+	function sendToggle(element){
+		var xhr = new XMLHttpRequest();
+		if(element.checked){
+			xhr.open("GET", "/update?toggle="+element.id+"&state=1", true);
+		} else {
+			xhr.open("GET", "/update?toggle="+element.id+"&state=0", true);
+		}
+		xhr.send();
+	}
 
 	setInterval(function ( ) {
-		  var xhttp = new XMLHttpRequest();
-		  xhttp.onreadystatechange = function() {
-		    if (this.readyState == 4 && this.status == 200) {
-		      document.getElementById("brightness").innerHTML = this.responseText;
-		    }
-		  };
-		  xhttp.open("GET", "/brightness", true);
-		  xhttp.send();
-		}, 10000 ) ;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("temperature").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "/temperature", true);
+			xhttp.send();
+		}, 1000 ) ;
+
+	setInterval(function ( ) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("brightness").innerHTML = this.responseText;
+				}
+			};
+			xhttp.open("GET", "/brightness", true);
+			xhttp.send();
+		}, 1000 ) ;
 </script>
 </html>
