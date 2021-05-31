@@ -1,10 +1,11 @@
 // Import required libraries
 #include "ESP8266WiFi.h"
 #include "ESPAsyncWebServer.h"
-#include "page.h"
 #include <Adafruit_NeoPixel.h>
 
-#define LED_PIN 12
+#include "page.h"
+
+#define LED_PIN 5
 #define LED_COUNT 60
 #define BRIGHTNESS 50
 
