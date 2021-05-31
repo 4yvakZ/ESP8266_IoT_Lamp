@@ -36,36 +36,30 @@
 
 	<p>
 		<span>R:</span>
-		<input type="range" min="0" max="255" value="%R%" class="red-thumb slider" onchange="sendSlider(this)" id="RangeR">
+		<input type="range" min="0" max="255" value="%R%" onchange="sendSlider(this)" id="RangeR">
 		<span class="value" id="ValueR">
 	</p>
 
 	<p>
 		<span>G:</span>
-		<input type="range" min="0" max="255" value="%G%" class="green-thumb slider" onchange="sendSlider(this)" id="RangeG">
+		<input type="range" min="0" max="255" value="%G%" onchange="sendSlider(this)" id="RangeG">
 		<span class="value" id="ValueG">
 	</p>
 
 	<p>
 		<span>B:</span>
-		<input type="range" min="0" max="255" value="%B%" class="blue-thumb slider" onchange="sendSlider(this)" id="RangeB">
+		<input type="range" min="0" max="255" value="%B%" onchange="sendSlider(this)" id="RangeB">
 		<span class="value" id="ValueB">
 	</p>
 
 	<p>
 		<span>Радуга</span>
-		<label class="switch">
-			<input type="checkbox" id="Rainbow" onchange="sendToggle(this)" %RAINBOW%>
-			<!-- <span class="slider switch"></span> -->
-		</label>
+		<input type="checkbox" id="Rainbow" onchange="sendToggle(this)" %RAINBOW%>
 	</p>
 
 	<p>
 		<span>Автояркость</span>
-		<label class="switch">
-			<input type="checkbox" id="Autobrightness" onchange="sendToggle(this)" %AUTOBRIGHTNESS%>
-			<!-- <span class="slider switch"></span> -->
-		</label>
+		<input type="checkbox" id="Autobrightness" onchange="sendToggle(this)" %AUTOBRIGHTNESS%>
 	</p>
 	<script>
 		var sliders = new Array(document.getElementById("RangeR"),document.getElementById("RangeG"),
